@@ -10,37 +10,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dicoding.dicodingsubmission.DetailDataActivity;
-import com.dicoding.dicodingsubmission.ItemClickSupport;
-import com.dicoding.dicodingsubmission.MainActivity;
-import com.dicoding.dicodingsubmission.Object.President;
-import com.dicoding.dicodingsubmission.Object.PresidentData;
+import com.dicoding.dicodingsubmission.Object.Skincare;
 import com.dicoding.dicodingsubmission.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<President> presidentList;
+    ArrayList<Skincare> skincareList;
 
-    public ViewAdapter(Context context, ArrayList<President> presidentList) {
+    public ViewAdapter(Context context, ArrayList<Skincare> skincareList) {
         this.context = context;
-        this.presidentList = presidentList;
+        this.skincareList = skincareList;
     }
 
-    public List<President> getPresidentList() {
-        return presidentList;
+    public List<Skincare> getSkincareList() {
+        return skincareList;
     }
 
-    public void setPresidentList(ArrayList<President> presidentList) {
-        this.presidentList = presidentList;
+    public void setSkincareList(ArrayList<Skincare> skincareList) {
+        this.skincareList = skincareList;
     }
 
     @NonNull
@@ -52,47 +52,43 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        viewHolder.nameText.setText(getPresidentList().get(i).getName());
-        viewHolder.remarkText.setText(getPresidentList().get(i).getRemark());
-        Glide.with(context).load(getPresidentList().get(i).getPhoto()).into(viewHolder.photoView);
-
-        viewHolder.favBtn.setOnClickListener(new View.OnClickListener() {
+        final int a = i;
+        viewHolder.nameText.setText(getSkincareList().get(i).getName());
+        viewHolder.qtyText.setText(getSkincareList().get(i).getQuantity());
+        viewHolder.priceText.setText(getSkincareList().get(i).getPrice());
+        Glide.with(context).load(getSkincareList().get(i).getImage()).into(viewHolder.photoView);
+        viewHolder.ratingView.setRating(getSkincareList().get(i).getRating());
+        viewHolder.viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Favorite " + viewHolder.nameText.getText(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, DetailDataActivity.class);
+                intent.putExtra("id", a);
+                context.startActivity(intent);
             }
         });
 
-        viewHolder.shareBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Share " + viewHolder.nameText.getText(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return presidentList.size();
+        return skincareList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView photoView;
-        TextView nameText, remarkText;
-        Button favBtn, shareBtn;
-        RelativeLayout relativeLayout;
-        CardView cardLayout;
+        CircleImageView photoView;
+        TextView nameText, priceText, qtyText;
+        RatingBar ratingView;
+        Button viewBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            photoView = itemView.findViewById(R.id.imgView);
+            photoView = itemView.findViewById(R.id.circleImageView);
             nameText = itemView.findViewById(R.id.txtName);
-            remarkText = itemView.findViewById(R.id.txtDesc);
-            favBtn = itemView.findViewById(R.id.btnFavorite);
-            shareBtn = itemView.findViewById(R.id.btnShare);
-            relativeLayout = itemView.findViewById(R.id.relativeLayout);
-            cardLayout = itemView.findViewById(R.id.cardLayout);
+            priceText = itemView.findViewById(R.id.txtPrice);
+            qtyText = itemView.findViewById(R.id.txtQuantity);
+            ratingView = itemView.findViewById(R.id.ratingBar);
+            viewBtn = itemView.findViewById(R.id.viewMoreBtn);
         }
     }
 }

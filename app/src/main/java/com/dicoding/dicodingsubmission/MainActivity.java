@@ -6,18 +6,17 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.dicoding.dicodingsubmission.Adapter.ViewAdapter;
-import com.dicoding.dicodingsubmission.Object.President;
-import com.dicoding.dicodingsubmission.Object.PresidentData;
+import com.dicoding.dicodingsubmission.Object.Skincare;
+import com.dicoding.dicodingsubmission.Object.SkincareData;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ArrayList<President> presidentArrayList = new ArrayList<>();
+    private ArrayList<Skincare> skincareArrayList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        presidentArrayList.addAll(PresidentData.getListData());
+        skincareArrayList.addAll(SkincareData.getListData());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ViewAdapter viewAdapter = new ViewAdapter(this, presidentArrayList);
-        viewAdapter.setPresidentList(presidentArrayList);
+        ViewAdapter viewAdapter = new ViewAdapter(this, skincareArrayList);
+        viewAdapter.setSkincareList(skincareArrayList);
         recyclerView.setAdapter(viewAdapter);
 
         ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
